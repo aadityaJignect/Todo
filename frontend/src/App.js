@@ -35,8 +35,6 @@ function App() {
           <Sidebar isDark={isDark} />
           <Routes>
             <Route path="/" element={<TasksPage isDark={isDark} />} />
-             
-
             <Route path="/tasks" element={<TasksPage isDark={isDark} />} />
             <Route path="/analytics" element={<AnalyticsPage isDark={isDark} />} /> 
             <Route path="/projects" element={<ProjectsPage isDark={isDark} />} />
