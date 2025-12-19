@@ -34,7 +34,9 @@ function App() {
         <div className="main">
           <Sidebar isDark={isDark} />
           <Routes>
-            <Route path="/" element={<TasksPage isDark={isDark} />} /> 
+            {/*<Route path="/" element={<TasksPage isDark={isDark} />} />*/}
+             <Route path="/" element={<Navigate to="/tasks" replace />} />
+
             <Route path="/tasks" element={<TasksPage isDark={isDark} />} />
             <Route path="/analytics" element={<AnalyticsPage isDark={isDark} />} /> 
             <Route path="/projects" element={<ProjectsPage isDark={isDark} />} />
