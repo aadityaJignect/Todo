@@ -1,0 +1,164 @@
+/* CSS Variables for Themes */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --text-secondary: #666666;
+  --header-bg: #f8f9fa;
+  --sidebar-bg: #f0f0f0;
+  --content-bg: #ffffff;
+  --button-bg: #007bff;
+  --button-text: #ffffff;
+  --border-color: #dddddd;
+  --card-bg: #ffffff;
+  --card-bg-completed: #f8f9fa;
+  --input-bg: #ffffff;
+  --input-border: #dddddd;
+  --tag-bg: #e9ecef;
+  --tag-text: #000000;
+}
+
+.dark {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --text-secondary: #aaaaaa;
+  --header-bg: #333333;
+  --sidebar-bg: #444444;
+  --content-bg: #222222;
+  --button-bg: #0056b3;
+  --button-text: #ffffff;
+  --border-color: #555555;
+  --card-bg: #333333;
+  --card-bg-completed: #2a2a2a;
+  --input-bg: #333333;
+  --input-border: #555555;
+  --tag-bg: #555555;
+  --tag-text: #ffffff;
+}
+
+.App {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--header-bg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.toggle-btn {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.toggle-btn:hover {
+  opacity: 0.8;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 250px;
+  padding: 1rem;
+  background-color: var(--sidebar-bg);
+  box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+  overflow-y: auto;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  list-style: none;
+}
+
+.sidebar li:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+.sidebar li a {
+  text-decoration: none;
+  color: var(--text-color);
+  display: block;
+  padding: 0.75rem;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sidebar li a:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+.sidebar li.active a {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  font-weight: bold;
+}
+
+.sidebar li.active a:hover {
+  background-color: var(--button-bg);
+  opacity: 0.9;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--content-bg);
+  overflow-y: auto;
+  min-width: 0; /* Prevents flex item from overflowing */
+}
+
+/* Ensure Routes container takes full width */
+.main > :last-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.content h2 {
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+}
