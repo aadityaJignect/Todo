@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import TaskList from '../components/TaskList';
 import TaskForm from '../components/TaskForm';
+import LoadingSpinner from '../components/LoadingSpinner';
+
 
 
  
@@ -176,7 +178,14 @@ const TasksPage = ({ isDark }) => {
     setShowForm(false);
   };
  
-  if (loading) return <div className="content">Loading tasks...</div>;
+ if (loading) {
+  return (
+    <main className="content">
+      <LoadingSpinner isDark={isDark} />
+    </main>
+  );
+}
+
   if (error) return <div className="content">Error: {error}</div>;
  
   return (
