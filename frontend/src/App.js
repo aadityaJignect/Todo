@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
@@ -9,20 +8,24 @@ import CalendarPage from './pages/CalendarPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import './App.css';
 
-// Wrapper component to handle redirect on refresh
 const AppRoutes = ({ isDark }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // On first load / refresh, redirect to "/"
-    navigate('/', { replace: true });
+    // Only redirect to "/" on a hard page refresh
+    if (window.performance && window.performance.getEntriesByType) {
+      const perfEntries = window.performance.getEntriesByType("navigation");
+      if (perfEntries.length > 0 && perfEntries[0].type === "reload") {
+        navigate('/', { replace: true });
+      }
+    }
   }, [navigate]);
 
   return (
     <Routes>
       <Route path="/" element={<TasksPage isDark={isDark} />} />
       <Route path="/tasks" element={<TasksPage isDark={isDark} />} />
-      <Route path="/analytics" element={<AnalyticsPage isDark={isDark} />} /> 
+      <Route path="/analytics" element={<AnalyticsPage isDark={isDark} />} />
       <Route path="/projects" element={<ProjectsPage isDark={isDark} />} />
       <Route path="/calendar" element={<CalendarPage isDark={isDark} />} />
     </Routes>
@@ -48,6 +51,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
