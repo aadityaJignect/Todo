@@ -3,7 +3,7 @@ import React from 'react';
 const Header = ({ toggleTheme, isDark }) => {
   return (
     <header className="header">
-      <h1>Todo App</h1>
+      <h1>Todo App Updated</h1>
       <button className="toggle-btn" onClick={toggleTheme}>
         {isDark ? '☀️ Light' : '🌙 Dark'} Mode
       </button>
