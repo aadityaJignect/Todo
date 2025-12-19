@@ -1,7 +1,7 @@
 // src/components/LoadingSpinner.jsx
 import React from 'react';
 
-const LoadingSpinner = ({ isDark, text = 'Loading tasks...' }) => {
+const LoadingSpinner = ({ isDark, text = 'Loading...' }) => {
   return (
     <div style={{
       minHeight: '60vh',
