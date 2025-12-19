@@ -16,6 +16,10 @@ export default AnalyticsPage;
 
 
 import React, { useState, useEffect } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner';
+
+
+
 import { formatDate } from '../utils/dateUtils';
 
 //const API_BASE = 'http://localhost:5001/api/tasks';
@@ -167,7 +171,13 @@ const AnalyticsPage = ({ isDark }) => {
     },
   });
 
-  if (loading) return <div style={loadingErrorStyle}>Loading analytics...</div>;
+   if (loading) {
+  return (
+    <main className="content">
+      <LoadingSpinner isDark={isDark} />
+    </main>
+  );
+}
   if (error) return <div style={loadingErrorStyle}>Error: {error}</div>;
 
   return (

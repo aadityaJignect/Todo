@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 
 
@@ -114,7 +115,13 @@ const ProjectsPage = ({ isDark }) => {
     );
   };
 
-  if (loading) return <div className="content">Loading projects...</div>;
+  if (loading) {
+  return (
+    <main className="content">
+      <LoadingSpinner isDark={isDark} />
+    </main>
+  );
+}
   if (error) return <div className="content">Error: {error}</div>;
 
   return (

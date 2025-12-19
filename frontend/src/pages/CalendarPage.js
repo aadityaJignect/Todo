@@ -13,6 +13,8 @@ const CalendarPage = ({ isDark }) => {
 export default CalendarPage;
 */
 import React, { useState, useEffect, useCallback } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner';
+
 
 //const API_BASE = 'http://localhost:5001/api/tasks';
 const API_BASE = `${process.env.REACT_APP_API_URL}/api/tasks`;
@@ -153,7 +155,13 @@ const CalendarPage = ({ isDark }) => {
     textAlign: 'center',
   };
 
-  if (loading) return <div style={loadingErrorStyle}>Loading calendar...</div>;
+  if (loading) {
+  return (
+    <main className="content">
+      <LoadingSpinner isDark={isDark} />
+    </main>
+  );
+}
   if (error) return <div style={loadingErrorStyle}>Error: {error}</div>;
 
   const months = [
