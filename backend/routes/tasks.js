@@ -1,15 +1,19 @@
 const express = require('express');
 const Task = require('../models/Task');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
+
+// Apply authentication middleware to all routes
+router.use(authMiddleware);
 
 // GET /api/tasks - Get all tasks with filtering and sorting
 router.get('/', async (req, res) => {
   try {
     const { status, sortBy, search, projectId } = req.query;
     
-    // Build filter query
-    let filter = {};
+    // Build filter query - always filter by user
+    let filter = { userId: req.user._id };
     
     // Status filter
     if (status) {
@@ -109,7 +113,8 @@ router.post('/', async (req, res) => {
     subtasks: req.body.subtasks,
     tags: req.body.tags,
     project: req.body.project,
-    projectId: req.body.projectId
+    projectId: req.body.projectId,
+    userId: req.user._id // Associate task with authenticated user
   });
 
   try {
@@ -123,7 +128,10 @@ router.post('/', async (req, res) => {
 // GET /api/tasks/:id - Get a single task
 router.get('/:id', async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({ 
+      _id: req.params.id, 
+      userId: req.user._id // Ensure user can only access their own tasks
+    });
     if (!task) return res.status(404).json({ message: 'Task not found' });
     res.json(task);
   } catch (err) {
@@ -134,7 +142,10 @@ router.get('/:id', async (req, res) => {
 // PUT /api/tasks/:id - Update a task
 router.put('/:id', async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({ 
+      _id: req.params.id, 
+      userId: req.user._id // Ensure user can only update their own tasks
+    });
     if (!task) return res.status(404).json({ message: 'Task not found' });
 
     task.title = req.body.title || task.title;
@@ -159,7 +170,10 @@ router.put('/:id', async (req, res) => {
 // DELETE /api/tasks/:id - Delete a task
 router.delete('/:id', async (req, res) => {
   try {
-    const task = await Task.findByIdAndDelete(req.params.id);
+    const task = await Task.findOneAndDelete({ 
+      _id: req.params.id, 
+      userId: req.user._id // Ensure user can only delete their own tasks
+    });
     if (!task) return res.status(404).json({ message: 'Task not found' });
     res.json({ message: 'Task deleted' });
   } catch (err) {

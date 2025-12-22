@@ -5,12 +5,11 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 
 
- 
- 
+
 // const API_BASE = 'http://localhost:5001/api/tasks';
 // const PROJECTS_API = 'http://localhost:5001/api/projects';
-const API_BASE = `${process.env.REACT_APP_API_URL}/api/tasks`;
-const PROJECTS_API = `${process.env.REACT_APP_API_URL}/api/projects`;
+const API_BASE = `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/tasks`;
+const PROJECTS_API = `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/projects`;
 
  
 const TasksPage = ({ isDark }) => {
@@ -35,7 +34,9 @@ const TasksPage = ({ isDark }) => {
  
   const fetchProjects = async () => {
     try {
-      const response = await fetch(PROJECTS_API);
+      const response = await fetch(PROJECTS_API, {
+        credentials: 'include' // Include authentication cookies
+      });
       if (!response.ok) {
         console.warn('Failed to fetch projects:', response.status);
         return;
@@ -71,7 +72,9 @@ const TasksPage = ({ isDark }) => {
       const url = queryString ? `${API_BASE}?${queryString}` : API_BASE;
      
       console.log('Fetching tasks from:', url); // Debug log
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        credentials: 'include' // Include authentication cookies
+      });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Failed to fetch tasks: ${response.status} ${errorText}`);
@@ -109,6 +112,7 @@ const TasksPage = ({ isDark }) => {
       const response = await fetch(API_BASE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Include authentication cookies
         body: JSON.stringify(taskData)
       });
       if (!response.ok) throw new Error('Failed to create task');
@@ -124,6 +128,7 @@ const TasksPage = ({ isDark }) => {
       const response = await fetch(`${API_BASE}/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Include authentication cookies
         body: JSON.stringify(taskData)
       });
       if (!response.ok) throw new Error('Failed to update task');
@@ -138,7 +143,10 @@ const TasksPage = ({ isDark }) => {
   const deleteTask = async (id) => {
     if (!window.confirm('Are you sure you want to delete this task?')) return;
     try {
-      const response = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_BASE}/${id}`, { 
+        method: 'DELETE',
+        credentials: 'include' // Include authentication cookies
+      });
       if (!response.ok) throw new Error('Failed to delete task');
       await applyFiltersAndSort(); // Refresh with current filters
     } catch (err) {
@@ -151,6 +159,7 @@ const TasksPage = ({ isDark }) => {
       const response = await fetch(`${API_BASE}/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Include authentication cookies
         body: JSON.stringify({ completed })
       });
       if (!response.ok) throw new Error('Failed to update task');

@@ -5,8 +5,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 // const API_BASE = 'http://localhost:5001/api/projects';
 // const TASKS_API = 'http://localhost:5001/api/tasks';
-const API_BASE = `${process.env.REACT_APP_API_URL}/api/projects`;
-const TASKS_API = `${process.env.REACT_APP_API_URL}/api/tasks`;
+const API_BASE = `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/projects`;
+const TASKS_API = `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/tasks`;
 
 
 const ProjectsPage = ({ isDark }) => {
@@ -31,7 +31,9 @@ const ProjectsPage = ({ isDark }) => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch(API_BASE);
+      const response = await fetch(API_BASE, {
+        credentials: 'include' // Include authentication cookies
+      });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Failed to fetch projects: ${response.status} ${errorText}`);
@@ -49,7 +51,9 @@ const ProjectsPage = ({ isDark }) => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch(TASKS_API);
+      const response = await fetch(TASKS_API, {
+        credentials: 'include' // Include authentication cookies
+      });
       if (response.ok) {
         const data = await response.json();
         setTasks(data);
@@ -66,6 +70,7 @@ const ProjectsPage = ({ isDark }) => {
         const response = await fetch(`${API_BASE}/${editingProject._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // Include authentication cookies
           body: JSON.stringify(formData)
         });
         if (!response.ok) throw new Error('Failed to update project');
@@ -73,6 +78,7 @@ const ProjectsPage = ({ isDark }) => {
         const response = await fetch(API_BASE, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // Include authentication cookies
           body: JSON.stringify(formData)
         });
         if (!response.ok) throw new Error('Failed to create project');
@@ -99,7 +105,10 @@ const ProjectsPage = ({ isDark }) => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this project? Tasks will be unassigned.')) return;
     try {
-      const response = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_BASE}/${id}`, { 
+        method: 'DELETE',
+        credentials: 'include' // Include authentication cookies
+      });
       if (!response.ok) throw new Error('Failed to delete project');
       await fetchProjects();
       await fetchTasks();

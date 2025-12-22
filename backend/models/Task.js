@@ -18,6 +18,11 @@ const taskSchema = new mongoose.Schema({
   tags: [String],
   project: String, // Keep for backward compatibility
   projectId: String, // New field for project reference
+  userId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
+    required: true 
+  }, // New field for user association
   archived: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

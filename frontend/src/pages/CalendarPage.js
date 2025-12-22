@@ -17,7 +17,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 
 //const API_BASE = 'http://localhost:5001/api/tasks';
-const API_BASE = `${process.env.REACT_APP_API_URL}/api/tasks`;
+const API_BASE = `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/tasks`;
 
 
 const CalendarPage = ({ isDark }) => {
@@ -36,7 +36,9 @@ const CalendarPage = ({ isDark }) => {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      const response = await fetch(API_BASE);
+      const response = await fetch(API_BASE, {
+        credentials: 'include' // Include authentication cookies
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch tasks');
       }
