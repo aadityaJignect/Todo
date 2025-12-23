@@ -11,10 +11,19 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // Middleware
-app.use(cors({
-  origin: 'http://localhost:3000', // React app URL
-  credentials: true // Allow cookies to be sent
-}));
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+console.log('CORS Configuration:', {
+  origin: corsOptions.origin,
+  FRONTEND_URL: process.env.FRONTEND_URL,
+  NODE_ENV: process.env.NODE_ENV
+});
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
