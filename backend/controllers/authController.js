@@ -13,7 +13,7 @@ const setTokenCookie = (res, token) => {
   const cookieOptions = {
     httpOnly: true, // Prevent XSS attacks
     secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-    sameSite: 'strict', // CSRF protection
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', // Allow cross-origin in production
     maxAge: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
   };
 
@@ -164,7 +164,7 @@ const logout = async (req, res) => {
     res.clearCookie('token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
     });
 
     res.json({

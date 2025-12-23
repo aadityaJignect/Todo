@@ -17,12 +17,6 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-console.log('CORS Configuration:', {
-  origin: corsOptions.origin,
-  FRONTEND_URL: process.env.FRONTEND_URL,
-  NODE_ENV: process.env.NODE_ENV
-});
-
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
